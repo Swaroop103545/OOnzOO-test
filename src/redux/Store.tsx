@@ -1,28 +1,6 @@
-import { applyMiddleware, createStore } from 'redux';
-import { thunk } from 'redux-thunk';
+import { createStore } from "redux";
+import myReducer from "./reducers";
 
-// Define action types
-const SET_PRODUCTS = 'SET_PRODUCTS';
-
-// Initial state
-const initialState = {
-  products: [],
-};
-
-// Reducer function
-const reducer = (state = initialState, action: any) => {
-  switch (action.type) {
-    case SET_PRODUCTS:
-      return {
-        ...state,
-        products: action.payload,
-      };
-    default:
-      return state;
-  }
-};
-
-// Create store
-const store = createStore(reducer, applyMiddleware(thunk));
+const store = createStore(myReducer);
 
 export default store;

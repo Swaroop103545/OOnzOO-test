@@ -1,32 +1,79 @@
-import React, { useEffect } from 'react';
-import { View, Text, FlatList } from 'react-native';
-import { connect } from 'react-redux';
-import { fetchProducts } from '../redux/actions/ProductAction';
+import axios from 'axios';
+import React, {useEffect, useState} from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Dimensions,
+  Image,
+  TouchableOpacity,
+  ScrollView,
+} from 'react-native';
+import {commonStyles} from './Styles';
+import axiosInstance from '../axios';
 
-const ProductList = ({ products, fetchProducts }: any) => {
+const ProductList = ({products}: any) => {
+  const [data, setData] = useState(null);
+
+  const WIDTH = Dimensions.get('window').width;
+  const HEIGHT = Dimensions.get('window').height;
+
   useEffect(() => {
-    fetchProducts();
-  }, [fetchProducts]);
+    // Example GET request using axiosInstance
+    axiosInstance
+      .get('/products')
+      .then(response => {
+        setData(response.data);
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }, []);
+
+  const renderItem = ({item}: any) => (
+    <>
+      <TouchableOpacity style={commonStyles.productItem}>
+        <Image source={item.image} style={commonStyles.productImage} />
+        {/* <View style={commonStyles.productDetails}> */}
+        <View style={{width: WIDTH / 1.5}}>
+          <Text style={commonStyles.productName}>{item.name}</Text>
+          <Text style={commonStyles.productDescription}>
+            {item.description}
+          </Text>
+          <Text style={commonStyles.productPrice}>{'$ ' + item.price}</Text>
+        </View>
+      </TouchableOpacity>
+    </>
+  );
 
   return (
-    <View>
-      <Text style={{ fontSize: 24, fontWeight: 'bold', textAlign: 'center', marginTop: 20 }}>Product List</Text>
+    <View style={commonStyles.container}>
+      {/* <ScrollView horizontal>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+        <Text>A</Text>
+      </ScrollView> */}
       <FlatList
         data={products}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <View style={{ padding: 10, borderBottomWidth: 1, borderBottomColor: '#ccc' }}>
-            <Text>{item.title}</Text>
-            <Text>Price: ${item.price}</Text>
-          </View>
-        )}
+        renderItem={renderItem}
+        nestedScrollEnabled
+        keyExtractor={item => item.id}
+        contentContainerStyle={commonStyles.productList}
       />
     </View>
   );
 };
 
-const mapStateToProps = (state: any) => ({
-  products: state.products,
-});
-
-export default connect(mapStateToProps, { fetchProducts })(ProductList);
+export default ProductList;

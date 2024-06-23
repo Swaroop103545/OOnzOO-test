@@ -12,7 +12,7 @@ import {
 import {commonStyles} from './Styles';
 import axiosInstance from '../axios';
 
-const ProductList = () => {
+const ProductList = ({products}: any) => {
   const [data, setData] = useState(null);
 
   const WIDTH = Dimensions.get('window').width;
@@ -48,7 +48,7 @@ const ProductList = () => {
 
   return (
     <View style={commonStyles.container}>
-      <ScrollView horizontal>
+      {/* <ScrollView horizontal>
         <Text>A</Text>
         <Text>A</Text>
         <Text>A</Text>
@@ -64,46 +64,15 @@ const ProductList = () => {
         <Text>A</Text>
         <Text>A</Text>
         <Text>A</Text>
-      </ScrollView>
+      </ScrollView> */}
       <FlatList
-        data={data}
+        data={products}
         renderItem={renderItem}
         nestedScrollEnabled
         keyExtractor={item => item.id}
         contentContainerStyle={commonStyles.productList}
       />
     </View>
-
-    // <View style={commonStyles.flex1}>
-    //   {data ? (
-    //     <FlatList
-    //       data={data}
-    //       contentContainerStyle={commonStyles.productList}
-    //       renderItem={({item}) => (
-
-    //         <View style={[commonStyles.flex1, {backgroundColor: 'yellow', height: HEIGHT, width: WIDTH}]}>
-    //           <View style={{padding: 10, backgroundColor: 'green'}}>
-
-    //           </View>
-    //         </View>
-
-    //         // <View
-    //         //   style={{marginHorizontal: 10, marginVertical: 2, padding: 6, borderRadius: 10}}>
-    //         //   <View style={ProductStyles.Card}>
-    //         //     <View style={[commonStyles.fdRow, {width: WIDTH - 25}]}>
-    //         //       <Text numberOfLines={1}>{item.title}</Text>
-    //         //       <Text>$ {item.price}</Text>
-    //         //     </View>
-    //         //     <Text>{item.description}</Text>
-    //         //     <Text>{item.category}</Text>
-    //         //   </View>
-    //         // </View>
-    //       )}
-    //     />
-    //   ) : (
-    //     <Text>Loading...</Text>
-    //   )}
-    // </View>
   );
 };
 

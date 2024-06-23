@@ -1,24 +1,17 @@
 const initialState = {
-  products: [],
-  loading: false,
-  error: null,
+  products: []
 };
 
-const ProductReducer = (state = initialState, action: any) => {
-  switch (action.type) {
+const ProductReducer = (state = initialState, action : any) => {
+  switch(action.type) {
     case 'PRODUCT_DETAILS':
       return {
         ...state,
-      };
-    case 'REQUEST_DATA':
-      return {...state, loading: true};
-    case 'RECEIVE_DATA':
-      return {...state, loading: false, data: action.payload};
-    case 'API_ERROR':
-      return {...state, loading: false, error: action.payload};
+        state
+      }
     default:
-      return state;
+      return state
   }
-};
+}
 
 export default ProductReducer;

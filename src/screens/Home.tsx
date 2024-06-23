@@ -1,15 +1,27 @@
 import React from 'react'
-import { ProductList } from '../components'
+import { Categories, FIlterProducts, ProductList } from '../components'
 
-const Home = () => {
+import { connect } from 'react-redux'
+
+import {ProductDetails} from '../redux/actions/ProductAction'
+
+const Home = ({products, ProductDetails}: any) => {
   return (
     <>
       {/* <Categories /> */}
-      <ProductList />
+      <ProductList products={products} />
       {/* <FIlterProducts /> */}
       
     </>
   )
 }
 
-export default Home;
+const mapStateToProps = (state: any) => ({
+  products: state.productList.products
+});
+
+const mapDispatchToProps = {
+  ProductDetails
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (Home);

@@ -1,50 +1,27 @@
-// import React from 'react'
-// import { Categories, FIlterProducts, ProductList } from '../components'
+import React from 'react'
+import { Categories, FIlterProducts, ProductList } from '../components'
 
-// const Home = () => {
-//   return (
-//     <>
-//       {/* <Categories /> */}
-//       {/* <ProductList /> */}
-//       {/* <FIlterProducts /> */}
-      
-//     </>
-//   )
-// }
+import { connect } from 'react-redux'
 
-// export default Home
+import {ProductDetails} from '../redux/actions/ProductAction'
 
-
-
-// App.js or any component where you want to use the API data
-import React, { useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
-import { connect } from 'react-redux';
-import { fetchData } from '../redux/actions/index';
-
-const Home = ({ data, loading, error, fetchData }: any) => {
-  console.log(',,,,,,,,,,,,,,,,,,,,,,data', loading, fetchData)
-  useEffect(() => {
-    fetchData(); // Fetch data when component mounts
-  }, []);
-
-  if (loading) return <Text>Loading...</Text>;
-  if (error) return <Text>Error: {error}</Text>;
-
+const Home = ({products, ProductDetails}: any) => {
   return (
-    <View>
-      <Text>Data:</Text>
-      <Text>{JSON.stringify(data)}</Text>
-      <Button title="Refresh Data" onPress={() => fetchData()} />
-    </View>
-  );
-};
+    <>
+      {/* <Categories /> */}
+      <ProductList products={products} />
+      {/* <FIlterProducts /> */}
+      
+    </>
+  )
+}
 
 const mapStateToProps = (state: any) => ({
-  data: state.api.data,
-  // loading: state.api.loading,
-  // error: state.api.error,
+  products: state.productList.products
 });
 
+const mapDispatchToProps = {
+  ProductDetails
+}
 
-export default connect(mapStateToProps, { fetchData })(Home);
+export default connect(mapStateToProps, mapDispatchToProps) (Home);
